@@ -30,9 +30,15 @@
 
   services.desktopManager.cosmic.enable = true;
   services.displayManager.cosmic-greeter.enable = true;
+  services.spice-vdagentd.enable = true;
 
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
+
+  environment.systemPackages = with pkgs; [
+    git
+    spice-vdagent
+  ];
 
   users.users.cody = {
     isNormalUser = true;
