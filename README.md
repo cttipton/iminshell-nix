@@ -20,12 +20,32 @@ different package management and system integration.
 
 ## Try the configuration
 
-With Nix and flakes enabled, inspect/evaluate the system:
+Check that the Nix CLI is installed and flakes work by running:
 
 ```sh
+nix --version
 nix flake show
+```
+
+The flake output should list `nixosConfigurations.vm`. If `nix flake show`
+reports that `nix-command` or `flakes` is disabled, enable both for this command
+with:
+
+```sh
+nix --extra-experimental-features 'nix-command flakes' flake show
+```
+
+Then evaluate the selected kernel package:
+
+```sh
 nix eval .#nixosConfigurations.vm.config.boot.kernelPackages.kernel.name
 ```
+
+Use the same `--extra-experimental-features 'nix-command flakes'` prefix with
+`nix eval` if needed. The `nix.settings.experimental-features` setting in
+`configuration.nix` takes effect on the configured NixOS system after you
+rebuild; it does not enable flakes on a separate system where you are preparing
+the configuration.
 
 After installing NixOS and placing this configuration on the guest, build and
 switch to it with:
